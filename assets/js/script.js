@@ -21,3 +21,57 @@ $(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
 });
+
+
+//eventually change to a equation that will retrieve the current hour
+
+var currentHour = 14;
+
+var mainEl = $("#main");
+console.log(mainEl);
+
+for(var i = 7; i <= 24; i++) {
+  var hourEl = $("<div>");
+  hourEl.attr("id", "hour-" + i);
+  hourEl.attr("class", "row time-block");
+  if(i < currentHour) {
+    hourEl.addClass("past");
+  } else if (i === currentHour) {
+    hourEl.addClass("present");
+  } else {
+    hourEl.addClass("future");
+  }
+  var hourLabelEl = $("<div>");
+  hourLabelEl.attr("class", "col-2 col-md-1 hour text-center py-3");
+  if(i <= 12){
+    hourLabelEl.text(i + "AM");
+  } else {
+    hourLabelEl.text(i - 12 + "PM");
+  }
+  hourEl.append(hourLabelEl);
+
+  var hourTextArea = $("<textarea>");
+  hourTextArea.attr("class", "col-8 col-md-10 description");
+  hourTextArea.attr("rows", "3");
+  hourEl.append(hourTextArea);
+
+  var saveBtn = $("<button>");
+  saveBtn.attr("class", "btn saveBtn col-2 col-md-1");
+  saveBtn.attr("aria-label", "save");
+  var italicsEl = $("<i>");
+  italicsEl.attr("class", "fas fa-save");
+  italicsEl.attr("aria-hidden", "true");
+  saveBtn.append(italicsEl);
+
+  hourEl.append(saveBtn);
+  mainEl.append(hourEl);
+}
+
+
+{/* <div id="hour-11" class="row time-block future">
+<div class="col-2 col-md-1 hour text-center py-3">11AM</div>
+<textarea class="col-8 col-md-10 description" rows="3"> </textarea>
+<button class="btn saveBtn col-2 col-md-1" aria-label="save">
+  <i class="fas fa-save" aria-hidden="true"></i>
+</button>
+</div> */}
