@@ -22,15 +22,36 @@ $(function () {
   // TODO: Add code to display the current date in the header of the page.
 });
 
+function Event(hour, date, description) {
+  this.hour = hour;
+  this.date = date;
+  this.description = description;
+}
 
-//eventually change to a equation that will retrieve the current hour
+allEvents = [];
+if(localStorage.getItem("events")){
+  allEvents = JSON.parse(localStorage.getItem("events"));
+}
 
-var currentHour = 14;
+var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+var d = new Date();
+var th = "th";
+if (d.getDate() === 1 || d.getDate() === 21 || d.getDate() === 31) {
+  th = "st";
+} else if (d.getDate() === 2 || d.getDate() === 22){
+  th = "nd";
+} else if (d.getDate() === 3 || d.getDate() === 23){
+  th = "rd"
+}
+var dateStr = weekdays[d.getDay()] + ", " + months[d.getMonth()] + " " + d.getDate() + th + ", " + d.getFullYear();
+var currentDateEl = $("#currentDay");
+currentDateEl.text(dateStr);
 
 var mainEl = $("#main");
-console.log(mainEl);
+var currentHour = d.getHours();
 
-for(var i = 7; i <= 24; i++) {
+for(var i = 9; i <= 18; i++) {
   var hourEl = $("<div>");
   hourEl.attr("id", "hour-" + i);
   hourEl.attr("class", "row time-block");
@@ -58,15 +79,30 @@ for(var i = 7; i <= 24; i++) {
   var saveBtn = $("<button>");
   saveBtn.attr("class", "btn saveBtn col-2 col-md-1");
   saveBtn.attr("aria-label", "save");
+  saveBtn.attr("data-hour", i);
   var italicsEl = $("<i>");
   italicsEl.attr("class", "fas fa-save");
   italicsEl.attr("aria-hidden", "true");
+  italicsEl.attr("data-hour", i);
   saveBtn.append(italicsEl);
 
   hourEl.append(saveBtn);
   mainEl.append(hourEl);
 }
 
+if(allEvents != []){
+  for(var i = 0; i < allEvents.length; i++){
+    $("#hour-" + allEvents[i].hour).children().eq(1).text(allEvents[i].description);
+  }
+}
+
+mainEl.on("click", ".saveBtn", function(event){
+  var hour = $(event.target).attr("data-hour");
+  var description = $("#hour-" + hour).children().eq(1).val();
+  var newEvent = new Event(hour, d, description);
+  allEvents.push(newEvent);
+  localStorage.setItem("events", JSON.stringify(allEvents))
+});
 
 {/* <div id="hour-11" class="row time-block future">
 <div class="col-2 col-md-1 hour text-center py-3">11AM</div>
