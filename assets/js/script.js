@@ -12,7 +12,7 @@ allEvents = [];
 if(localStorage.getItem("events")){
   allEvents = JSON.parse(localStorage.getItem("events"));
 }
-//day of the month using the dayjs cdn syntax
+//day of the month using the dayjs API syntax
 var dayOfMonth = dayjs().$D;
 //global variable th is the string that comes after the day of the month when printing the full date to the user
 var th = "th";
@@ -24,10 +24,10 @@ if (dayOfMonth === 1 || dayOfMonth === 21 || dayOfMonth === 31) {
 } else if (dayOfMonth === 3 || dayOfMonth === 23){
   th = "rd"
 }
-//utilizing dayjs cdn syntax to get the current day as a string in a common formatting
+//utilizing dayjs API syntax to get the current day as a string in a common formatting
 //this is the formatting all dates passed to the event object will have for the date value
 var dateStr = dayjs().format('DD/MM/YYYY');
-//utilizing dayjs cdn to get the amound of hours already passed in the day (0-23)
+//utilizing dayjs API to get the amound of hours already passed in the day (0-23)
 var currentHour = dayjs().$H;
 
 //wraps all code that interacts with the DOM in a call to jQuery
@@ -35,7 +35,7 @@ $(function () {
   //retrieves the element with the id 'currentDay' which I added to the html file
   var currentDateEl = $("#currentDay");
   //sets the element to a string that holds the current day's info: dayOfWeek, month day, year (example: 'Wednesday, March 21st, 1999')
-  //utilizing dayjs cdn to get day of the week, month of the year, the previously defined day of month and its appropriate ending and then the year
+  //utilizing dayjs API to get day of the week, month of the year, the previously defined day of month and its appropriate ending and then the year
   currentDateEl.text(dayjs().format('dddd') + ", " + dayjs().format('MMMM') + " " + dayOfMonth + th + ", " + dayjs().format('YYYY'));
   //finds the element with the id 'confirm-message' I added to the html file
   var confirmStored = $('#confirm-message');
@@ -49,7 +49,7 @@ $(function () {
   $("#datepicker").datepicker({
     //'onSelect' is a prebuilt option of jQuery's datepicker that acts like an event listener
     //onSelect will execute a function and will automatically pass 2 variables, the dateText and the date Object
-    //dateText follows the formatting I used from dayjs cdn above (DD/MM/YYYY) and the date object is all info on the date with specific object value names such as 'selectedDay' used below
+    //dateText follows the formatting I used from dayjs API above (DD/MM/YYYY) and the date object is all info on the date with specific object value names such as 'selectedDay' used below
     onSelect: function(dateText, inst) {
       //sets the global variable DateStr to the date the user selected in the datepicker since it has the same format
       dateStr = dateText;
@@ -251,8 +251,8 @@ $(function () {
     }
     //changes the confirmStored element to make it visible
     confirmStored.css("visibility", "visible");
-    var secondsLeft = 4;
-    //starts an iterval that will run for 5 seconds (1 iteration at the start of the interval + the declared 4 seconds left)
+    var secondsLeft = 2;
+    //starts an iterval that will run for 3 seconds (1 iteration at the start of the interval + the declared 2 seconds left)
     var myInterval = setInterval(function() {
       //subracts 1 from seconds left every iteration
       secondsLeft --;
