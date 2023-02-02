@@ -9,12 +9,7 @@ if(localStorage.getItem("events")){
   allEvents = JSON.parse(localStorage.getItem("events"));
 }
 
-var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-var months = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-var d = new Date();
-var dayOfWeek = d.getDay();
-var dayOfMonth = d.getDate();
-var monthOfYear = d.getMonth();
+var dayOfMonth = dayjs().$D;
 var th = "th";
 if (dayOfMonth === 1 || dayOfMonth === 21 || dayOfMonth === 31) {
   th = "st";
@@ -23,65 +18,103 @@ if (dayOfMonth === 1 || dayOfMonth === 21 || dayOfMonth === 31) {
 } else if (dayOfMonth === 3 || dayOfMonth === 23){
   th = "rd"
 }
-var dateStr = weekdays[dayOfWeek] + ", " + months[monthOfYear] + " " + dayOfMonth + th + ", " + d.getFullYear();
-var currentHour = d.getHours();
+var dateStr = dayjs().format('DD/MM/YYYY');
+var currentHour = dayjs().$H;
 
 $(function () {
+
   var currentDateEl = $("#currentDay");
-  currentDateEl.text(dateStr);
+  currentDateEl.text(dayjs().format('dddd') + ", " + dayjs().format('MMMM') + " " + dayOfMonth + th + ", " + dayjs().format('YYYY'));
 
   var confirmStored = $('#confirm-message');
   confirmStored.css("text-align", "center");  
-  confirmStored.css("visibility", "hidden");  
-
+  confirmStored.css("visibility", "hidden");
   
   var mainEl = $("#main");
-  
-  for(var i = 9; i <= 18; i++) {
-    var hourEl = $("<div>");
-    hourEl.attr("id", "hour-" + i);
-    hourEl.attr("class", "row time-block");
-    if(i < currentHour) {
-      hourEl.addClass("past");
-    } else if (i === currentHour) {
-      hourEl.addClass("present");
-    } else {
-      hourEl.addClass("future");
+
+  $("#datepicker").datepicker({
+    onSelect: function(dateText, inst) {
+      dateStr = dateText;
+      dayOfMonth = inst.selectedDay;
+      th = "th";
+      if (dayOfMonth === 1 || dayOfMonth === 21 || dayOfMonth === 31) {
+        th = "st";
+      } else if (dayOfMonth === 2 || dayOfMonth === 22){
+        th = "nd";
+      } else if (dayOfMonth === 3 || dayOfMonth === 23){
+        th = "rd"
+      }
+      currentDateEl.text(dayjs(dateText).format('dddd') + ", " + dayjs(dateText).format("MMMM") + " " + dayOfMonth + th + ", " + inst.selectedYear);
+
+      if(inst.selectedYear > dayjs().$y) {
+        currentHour = -24;
+      } else if(inst.selectedYear === dayjs().$y && inst.selectedMonth > dayjs().$M) {
+        currentHour = -24;
+      } else if(inst.selectedYear === dayjs().$y && inst.selectedMonth === dayjs().$M && inst.selectedDay > dayjs().$D) {
+        currentHour = -24;
+      } else if(inst.selectedYear < dayjs().$y){
+        currentHour = 24;
+      } else if(inst.selectedYear === dayjs().$y && inst.selectedMonth < dayjs().$M) {
+        currentHour = 24;
+      } else if(inst.selectedYear === dayjs().$y && inst.selectedMonth === dayjs().$M && inst.selectedDay < dayjs().$D) {
+        currentHour = 24;
+      } else {
+        currentHour = dayjs().$H;
+      }
+      printWorkDay();
     }
-    var hourLabelEl = $("<div>");
-    hourLabelEl.attr("class", "col-2 col-md-1 hour text-center py-3");
-    if(i <= 12){
-      hourLabelEl.text(i + "AM");
-    } else {
-      hourLabelEl.text(i - 12 + "PM");
+  });
+
+  function printWorkDay() {
+    mainEl.empty();
+    for(var i = 9; i < 18; i++) {
+      var hourEl = $("<div>");
+      hourEl.attr("id", "hour-" + i);
+      hourEl.attr("class", "row time-block");
+      if(i < currentHour) {
+        hourEl.addClass("past");
+      } else if (i === currentHour) {
+        hourEl.addClass("present");
+      } else {
+        hourEl.addClass("future");
+      }
+      var hourLabelEl = $("<div>");
+      hourLabelEl.attr("class", "col-2 col-md-1 hour text-center py-3");
+      if(i <= 12){
+        hourLabelEl.text(i + "AM");
+      } else {
+        hourLabelEl.text(i - 12 + "PM");
+      }
+      hourEl.append(hourLabelEl);
+    
+      var hourTextArea = $("<textarea>");
+      hourTextArea.attr("class", "col-8 col-md-10 description");
+      hourTextArea.attr("rows", "3");
+      hourEl.append(hourTextArea);
+    
+      var saveBtn = $("<button>");
+      saveBtn.attr("class", "btn saveBtn col-2 col-md-1");
+      saveBtn.attr("aria-label", "save");
+      saveBtn.attr("data-hour", i);
+      var italicsEl = $("<i>");
+      italicsEl.attr("class", "fas fa-save");
+      italicsEl.attr("aria-hidden", "true");
+      italicsEl.attr("data-hour", i);
+      saveBtn.append(italicsEl);
+    
+      hourEl.append(saveBtn);
+      mainEl.append(hourEl);
     }
-    hourEl.append(hourLabelEl);
-  
-    var hourTextArea = $("<textarea>");
-    hourTextArea.attr("class", "col-8 col-md-10 description");
-    hourTextArea.attr("rows", "3");
-    hourEl.append(hourTextArea);
-  
-    var saveBtn = $("<button>");
-    saveBtn.attr("class", "btn saveBtn col-2 col-md-1");
-    saveBtn.attr("aria-label", "save");
-    saveBtn.attr("data-hour", i);
-    var italicsEl = $("<i>");
-    italicsEl.attr("class", "fas fa-save");
-    italicsEl.attr("aria-hidden", "true");
-    italicsEl.attr("data-hour", i);
-    saveBtn.append(italicsEl);
-  
-    hourEl.append(saveBtn);
-    mainEl.append(hourEl);
+    
+    if(allEvents != []){
+      for(var i = 0; i < allEvents.length; i++){
+        if(allEvents[i].date === dateStr){
+          $("#hour-" + allEvents[i].hour).children().eq(1).text(allEvents[i].description);
+        }
+      }
+    }
   }
-  
-  if(allEvents != []){
-    for(var i = 0; i < allEvents.length; i++){
-      $("#hour-" + allEvents[i].hour).children().eq(1).text(allEvents[i].description);
-    }
-  }
-  
+
   mainEl.on("click", ".saveBtn", function(event){
     var hour = $(event.target).attr("data-hour");
     var description = $("#hour-" + hour).children().eq(1).val();
@@ -119,7 +152,7 @@ $(function () {
       confirmStored.text("Appointment removed from local storage ❎");
     }
     confirmStored.css("visibility", "visible");
-    var secondsLeft = 4;
+    var secondsLeft = 2;
     var myInterval = setInterval(function() {
       secondsLeft --;
       if(secondsLeft === 0) {
@@ -128,4 +161,5 @@ $(function () {
       }
     }, 1000)
   }
+  printWorkDay();
 });
