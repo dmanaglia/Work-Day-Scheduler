@@ -2,7 +2,7 @@
 
 As a student with a busy day full of assignment deadlines and miscellaneous tasks, it can be difficult to stay organized and remember all the events I have coming up. As a coder who spends my day online studying web developement it is helpful to have a virtual schedule rather than a physical schedule. For these reasons I created a work day scheduler webpage. The webpage is dynamic, giving users the ability to log upcoming events by the hour. It also helps organize ones schedule visually by displaying past hours with a gray background, the current hour with a red background and future hours with a green background.
 
-![Current Day Screenshot]()
+![Current Day Screenshot](./assets/Images/Current-Day-Screenshot.png)
 
 The webpage utilizes local storage to ensure that any events that have been added, changed or removed are likewise updated in local storage so when the user closes the webpage and comes back, all events previously saved are still present. The webpage will load with the current day displayed and the user has the ability to change the day at the bottom of the header so they can view past dates and delete old events or go to future dates to create upcoming events and tasks.
 
@@ -18,11 +18,11 @@ No installation necessary just click the link below to view!
 
 The virtual scheduler is easy to use and intuitive. When loaded, the webpage will display the current day. Any past hours will be the color gray, the present hour will be red, and future hours will be green. In order to create an event just click on the text are in the middle of each time slot and type in your new event. Once you are finished describing the event be sure to click the save button to the right of the text area. If you save a new event, a confirmation message will appear near the top of the webpage declaring the event has been saved in local storage. If you make any updates to the event or delete it and save the changes, an appropriate confirmation message will be displayed. All confirmation messages will be displayed for exactly five seconds before vanishing.
 
-![Confirmation Screenshot]()
+![Confirmation Screenshot](./assets/Images/Confirmation-Screenshot.png)
 
 In order to view a date other than today, utilize the "Go To Date" input near the top of the page which will display a calander when clicked so you can navigate to any desired date. Every date follows the same structure and adding or changing any event follows the same rules. Just be sure to save the event before refreshing or exiting the browser!
 
-![DatePicker Screenshot]()
+![DatePicker Screenshot](./assets/Images/Datepicker-Screenshot.png)
 
 ## Cedits
 
@@ -66,6 +66,6 @@ In this way, the 'onSelect' option behaves exactly like an eventlistener. Throug
 
 Overall the feature adds so much to the webpage and it doesn't change its original functionality. The current date is still the first day to load when a user navigates to the page. The user just now has the option of adding events to days in the future and removing events from the past.
 
-![Past Screenshot]()
+![Past Screenshot](./assets/Images/Past-Screenshot.png)
 
-![Future Screenshot]()
+![Future Screenshot](./assets/Images/Future-Screenshot.png)
