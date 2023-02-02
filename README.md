@@ -16,7 +16,7 @@ No installation necessary just click the link below to view!
 
 ## Usage
 
-The virtual scheduler is easy to use and intuitive. When loaded, the webpage will display the current day. Any past hours will be the color gray, the present hour will be red, and future hours will be green. In order to create an event just click on the text are in the middle of each time slot and type in your new event. Once you are finished describing the event be sure to click the save button to the right of the text area. If you save a new event, a confirmation message will appear near the top of the webpage declaring the event has been saved in local storage. If you make any updates to the event or delete it and save the changes, an appropriate confirmation message will be displayed. All confirmation messages will be displayed for exactly five seconds before vanishing.
+The virtual scheduler is easy to use and intuitive. When loaded, the webpage will display the current day. Any past hours will be the color gray, the present hour will be red, and future hours will be green. In order to create an event just click on the text are in the middle of each time slot and type in your new event. Once you are finished describing the event be sure to click the save button to the right of the text area. If you save a new event, a confirmation message will appear near the top of the webpage declaring the event has been saved in local storage. If you make any updates to the event or delete it and save the changes, an appropriate confirmation message will be displayed. All confirmation messages will be displayed for exactly three seconds before vanishing.
 
 ![Confirmation Screenshot](./assets/Images/Confirmation-Screenshot.png)
 
