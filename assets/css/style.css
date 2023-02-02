@@ -1,8 +1,9 @@
+/* changing all text in the body to the google font open sans */
 body {
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
 }
-
+/* updates styling for all textarea elements */
 textarea {
   background: transparent;
   border: none;
@@ -11,7 +12,7 @@ textarea {
   border-left: 1px solid black;
   padding: 10px;
 }
-
+/* stying for custom classes */
 .description {
   white-space: pre-wrap;
 }
@@ -29,7 +30,7 @@ textarea {
   color: #000000;
   border-top: 1px dashed #000000;
 }
-
+/* classes that dynamically display the current hour, past hours and future hours */
 .past {
   background-color: #d3d3d3;
   color: white;
@@ -44,7 +45,7 @@ textarea {
   background-color: #77dd77;
   color: white;
 }
-
+/* styling for all elements with the saveBtn class */
 .saveBtn {
   border-left: 1px solid black;
   border-top-right-radius: 15px;
@@ -52,7 +53,7 @@ textarea {
   background-color: #06aed5;
   color: white;
 }
-
+/* creates the hover effect for the icons on the button elements */
 .saveBtn i:hover {
   font-size: 20px;
   transition: all 0.3s ease-in-out;
